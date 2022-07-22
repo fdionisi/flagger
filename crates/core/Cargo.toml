@@ -1,0 +1,20 @@
+[package]
+name = "flagger-core"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+test-suite = []
+
+[dependencies]
+async-trait = "0.1.56"
+flagger-entities = { path = "../entities", version = "0.1.0" }
+flagger-types = { path = "../types", version = "0.1.0" }
+futures = "0.3.21"
+mongodb = "2.2.2"
+serde = { version = "1", features = ["derive"] }
+thiserror = "1.0.31"
+
+[dev-dependencies]
+tokio = { version = "1.19.2", features = ["rt", "macros"] }

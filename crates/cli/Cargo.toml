@@ -1,0 +1,15 @@
+[package]
+name = "flagger-cli"
+version = "0.1.0"
+edition = "2021"
+
+[[bin]]
+name = "flagger"
+path = "./src/main.rs"
+
+[dependencies]
+clap = { version = "3.2.13", features = ["derive"] }
+flagger-api = { path = "../api", version = "0.1.0" }
+flagger-core = { path = "../core", version = "0.1.0" }
+flagger-aws-identity-provider = { path = "../impl/aws-identity-provider", version = "0.1.0" }
+tokio = { version = "1.19.2", features = ["rt", "macros", "process"] }

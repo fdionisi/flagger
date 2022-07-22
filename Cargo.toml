@@ -1,0 +1,9 @@
+[workspace]
+members = [
+    "crates/types",
+    "crates/entities",
+    "crates/core",
+    "crates/impl/aws-identity-provider",
+    "crates/api",
+    "crates/cli",
+]

@@ -1,0 +1,7 @@
+[package]
+name = "flagger-aws-identity-provider"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+flagger-types = { path = "../../types", version = "0.1.0" }

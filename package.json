@@ -1,0 +1,63 @@
+{
+  "name": "flagger-serve-www",
+  "version": "0.1.0",
+  "description": "Flagger's management UI",
+  "bin": "dist/main.js",
+  "scripts": {
+    "build": "yarn -s build:transpile && yarn -s build:copy-assets",
+    "build:copy-assets": "cp -R www/.next/. dist/.next",
+    "build:transpile": "tsc && next build www",
+    "compile": "pkg --compress Gzip --out-path out .",
+    "dev:www": "node -r ts-node/register www/main.ts",
+    "prepare": "yarn -s prepare:tailwind && yarn -s prepare:preline",
+    "prepare:tailwind": "tailwindcss init",
+    "prepare:preline": "cp ./node_modules/preline/dist/hs-ui.bundle.js ./www/public/js/hs-ui.bundle.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "Federico <code@fdionisi.me>",
+  "license": "MIT",
+  "dependencies": {
+    "@headlessui/react": "^1.6.6",
+    "@heroicons/react": "^1.0.6",
+    "@koa/router": "^12.0.0",
+    "clsx": "^1.2.1",
+    "commander": "^9.4.0",
+    "fuse.js": "^6.6.2",
+    "http-proxy": "^1.18.1",
+    "koa": "^2.13.4",
+    "next": "^12.2.2",
+    "next-themes": "^0.2.0",
+    "preline": "^1.1.2",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0"
+  },
+  "devDependencies": {
+    "@tailwindcss/typography": "^0.5.3",
+    "@types/http-proxy": "^1.17.9",
+    "@types/koa": "^2.13.5",
+    "@types/koa__router": "^8.0.11",
+    "@types/node": "18",
+    "@types/react": "^18.0.15",
+    "@types/react-dom": "^18.0.6",
+    "autoprefixer": "^10.4.7",
+    "pkg": "^5.8.0",
+    "postcss": "^8.4.14",
+    "tailwindcss": "^3.1.5",
+    "ts-node": "^10.9.1",
+    "typescript": "^4.7.4"
+  },
+  "volta": {
+    "node": "18.5.0",
+    "yarn": "1.22.19"
+  },
+  "pkg": {
+    "scripts": [
+      "dist/www/main.js",
+      "dist/www/.next/server/**/*.js"
+    ],
+    "assets": [
+      "dist/www/.next/**/*"
+    ]
+  }
+}
