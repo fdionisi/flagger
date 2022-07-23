@@ -12,6 +12,6 @@ export interface Feature {
 
 export interface FeatureInput {
   kind: FeatureKind;
-  name: String;
+  name: string;
   description?: string;
 }

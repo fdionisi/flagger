@@ -24,7 +24,7 @@ export function Modal(
         className="fixed inset-0 p-4 pt-[15hv] overflow-y-auto z-10"
       >
         <Dialog.Overlay className="fixed inset-0" />
-        <div className="bg-white rounded-md dark:bg-slate-900 max-w-2xl mx-auto ">
+        <div className="bg-white rounded-md dark:border-gray-700 dark:text-white border dark:bg-gray-800 max-w-2xl mx-auto ">
           {children}
         </div>
       </Dialog>

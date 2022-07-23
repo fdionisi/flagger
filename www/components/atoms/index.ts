@@ -1,6 +1,7 @@
 export * from "./autocomplete";
 export * from "./badge";
 export * from "./button";
+export * from "./editor";
 export * from "./indicator";
 export * from "./input";
 export * from "./label";

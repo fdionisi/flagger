@@ -6,7 +6,7 @@ module.exports = {
   webpack(config, options) {
     config.experiments = { ...config.experiments, topLevelAwait: true };
     config.module.rules.push({
-      test: /lib\/flagger-client/,
+      test: /flagger-client/,
       use: [options.defaultLoaders.babel],
     });
 

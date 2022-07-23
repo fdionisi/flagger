@@ -1,31 +1,16 @@
-import { useState } from "react";
 import { FeatureInput, FeatureKind } from "../../../lib/flagger-client";
-import { Autocomplete, Button, Input, Label, Textarea } from "../atoms";
+import { Autocomplete, Input, Label, Textarea } from "../atoms";
 
 interface Props {
-  onSubmit: (input: FeatureInput) => void | Promise<void>;
+  value: Partial<FeatureInput>;
+  onChange: (input: Partial<FeatureInput>) => void;
 }
 
-export function CreateFeatureForm({ onSubmit }: Props): JSX.Element {
-  const [name, setName] = useState<string>("");
-  const [description, setDescription] = useState<string>("");
-  const [kind, setKind] = useState<FeatureKind | undefined>();
+export function CreateFeatureForm(
+  { value, onChange }: Props,
+): JSX.Element {
   return (
-    <form
-      onSubmit={async (event) => {
-        event.preventDefault();
-
-        await onSubmit({
-          name,
-          kind: kind as FeatureKind,
-          description,
-        });
-
-        setName("");
-        setDescription("");
-        setKind(undefined);
-      }}
-    >
+    <div>
       <div>
         <Label htmlFor="name">
           Name
@@ -36,8 +21,12 @@ export function CreateFeatureForm({ onSubmit }: Props): JSX.Element {
           name="name"
           placeholder="myNewFeature"
           required
-          value={name}
-          onChange={(event) => setName(event.target.value)}
+          value={value.name || ""}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              name: event.target.value,
+            })}
         />
       </div>
 
@@ -48,7 +37,7 @@ export function CreateFeatureForm({ onSubmit }: Props): JSX.Element {
         <Autocomplete
           id="kind"
           name="kind"
-          value={kind}
+          value={value.kind || ""}
           options={[
             {
               text: FeatureKind.KillSwitch,
@@ -56,7 +45,11 @@ export function CreateFeatureForm({ onSubmit }: Props): JSX.Element {
               key: FeatureKind.KillSwitch,
             },
           ]}
-          onChange={(option) => setKind(option?.value as FeatureKind)}
+          onChange={(option) =>
+            onChange({
+              ...value,
+              kind: option?.value as FeatureKind,
+            })}
         />
       </div>
 
@@ -68,14 +61,14 @@ export function CreateFeatureForm({ onSubmit }: Props): JSX.Element {
           id="description"
           name="description"
           rows={10}
-          value={description}
-          onChange={(event) => setDescription(event.target.value)}
+          value={value.description || ""}
+          onChange={(event) =>
+            onChange({
+              ...value,
+              description: event.target.value,
+            })}
         />
       </div>
-
-      <Button>
-        Create feature
-      </Button>
-    </form>
+    </div>
   );
 }

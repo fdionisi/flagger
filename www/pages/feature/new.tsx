@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect } from "react";
 import { FeatureInput } from "../../../lib/flagger-client";
-import { CreateFeatureForm } from "../../components/organisms";
+import { CreateFeature } from "../../components/organisms/create-feature";
 import { ApplicationTemplate } from "../../components/templates";
 import { useManagement } from "../../store";
 
@@ -34,7 +34,7 @@ export default function New() {
         },
       ]}
     >
-      <CreateFeatureForm onSubmit={onSubmit} />
+      <CreateFeature onSubmit={onSubmit} />
     </ApplicationTemplate>
   );
 }
