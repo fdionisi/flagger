@@ -5,7 +5,7 @@
   "bin": "dist/www/main.js",
   "scripts": {
     "build": "yarn -s build:transpile && yarn -s build:copy-assets",
-    "build:copy-assets": "cp -R www/.next/. dist/.next",
+    "build:copy-assets": "cp -R www/.next/. dist/www/.next && cp -R www/public/. dist/www/public",
     "build:transpile": "tsc && next build www",
     "compile": "pkg --compress Gzip --out-path out .",
     "dev:www": "node -r ts-node/register www/main.ts",
@@ -61,7 +61,8 @@
       "dist/www/.next/server/**/*.js"
     ],
     "assets": [
-      "dist/www/.next/**/*"
+      "dist/www/.next/**/*",
+      "dist/www/public/**/*"
     ]
   }
 }
