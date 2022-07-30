@@ -2,6 +2,7 @@ dist/
 node_modules/
 out/
 target/
+temp/
 www/.next
 www/public/js/hs-ui*
 .ds_store

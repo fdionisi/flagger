@@ -86,7 +86,6 @@ export function CommandPalette(
   { commands, isOpen: defaultIsOpen = false, children }: Props,
 ): JSX.Element {
   const [isOpen, setIsOpen] = useState(defaultIsOpen);
-  console.log(defaultIsOpen, isOpen);
 
   const [query, setQuery] = useState("");
   const fuse = useMemo(

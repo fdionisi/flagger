@@ -29,8 +29,6 @@ COPY lib/ ./lib
 
 RUN yarn -s build
 
-RUN ls -la
-
 RUN yarn -s compile --targets node18-alpine-${arch}
 
 ### End platform

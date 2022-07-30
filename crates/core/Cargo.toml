@@ -5,16 +5,18 @@ edition = "2021"
 
 [features]
 default = []
-test-suite = []
+implement-controller = []
+test-suite = ["flagger-database-adapter/test-suite"]
 
 [dependencies]
 async-trait = "0.1.56"
+flagger-database-adapter = { path = "../database-adapter", version = "0.1.0" }
 flagger-entities = { path = "../entities", version = "0.1.0" }
 flagger-types = { path = "../types", version = "0.1.0" }
 futures = "0.3.21"
-mongodb = "2.2.2"
 serde = { version = "1", features = ["derive"] }
 thiserror = "1.0.31"
 
 [dev-dependencies]
+flagger-database-adapter = { path = "../database-adapter", version = "0.1.0", features = ["test-suite"] }
 tokio = { version = "1.19.2", features = ["rt", "macros"] }

@@ -1,0 +1,13 @@
+[package]
+name = "flagger-rocksdb-adapter"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.56"
+flagger-database-adapter = { path = "../../database-adapter", version = "0.1.0" }
+flagger-entities = { path = "../../entities", version = "0.1.0" }
+flagger-types = { path = "../../types", version = "0.1.0" }
+rocksdb = { version = "0.18.0", default-features = false, features = ["snappy"] }

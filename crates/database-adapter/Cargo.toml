@@ -1,0 +1,12 @@
+[package]
+name = "flagger-database-adapter"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+test-suite = []
+
+[dependencies]
+async-trait = "0.1.56"
+flagger-entities = { path = "../entities" }

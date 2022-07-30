@@ -1,7 +1,4 @@
-use flagger_entities::feature::Feature;
-use mongodb::bson::doc;
-
-use crate::{context::FlaggerContext, Flagger, FlaggerError};
+use flagger_core::{Flagger, FlaggerContext, FlaggerError};
 
 #[async_trait::async_trait]
 pub trait ConsumerController {
@@ -21,11 +18,7 @@ impl ConsumerController for Flagger {
     ) -> Result<bool, FlaggerError> {
         context.consumer()?;
 
-        let feature = self
-            .database
-            .collection_with_type::<Feature>()
-            .find_one(doc! { "name": feature_name }, None)
-            .await?;
+        let feature = self.database().read_by_name(feature_name).await;
 
         Ok(feature.map(|f| f.enabled).unwrap_or(false))
     }
@@ -33,14 +26,14 @@ impl ConsumerController for Flagger {
 
 #[cfg(test)]
 mod tests {
-    use crate::{error::FlaggerError, tests::test_flagger};
+    use flagger_core::{tests::test_flagger, FlaggerError};
 
     use super::ConsumerController;
 
     #[tokio::test]
     async fn it_doesnt_fail_for_missing_feature() -> Result<(), FlaggerError> {
         // given
-        let flagger = test_flagger("core_consumer_controller").await?;
+        let flagger = test_flagger().await?;
         let context = flagger.context();
 
         // when

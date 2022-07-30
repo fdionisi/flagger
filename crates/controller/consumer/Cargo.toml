@@ -1,0 +1,15 @@
+[package]
+name = "flagger-consumer-controller"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.56"
+flagger-core = { path = "../../core", features = ["implement-controller"] }
+flagger-entities = { path = "../../entities" }
+
+[dev-dependencies]
+flagger-core = { path = "../../core", version = "0.1.0", features = ["implement-controller", "test-suite"] }
+tokio = { version = "1.19.2", features = ["macros", "rt"] }

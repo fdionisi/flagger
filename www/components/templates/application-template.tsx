@@ -1,13 +1,15 @@
 import {
   BellIcon,
+  ChevronRightIcon,
+  ColorSwatchIcon,
   LightningBoltIcon,
   MenuIcon,
   SearchIcon,
 } from "@heroicons/react/outline";
 import clsx from "clsx";
 import Link from "next/link";
+import { useRouter } from "next/router";
 import { PropsWithChildren } from "react";
-import { Input } from "../atoms";
 import { CommandPalette } from "../organisms";
 
 interface Props {
@@ -22,8 +24,9 @@ export function ApplicationTemplate(
     Props
   >,
 ): JSX.Element {
+  const router = useRouter();
   return (
-    <div className="bg-gray-50 dark:bg-slate-900">
+    <div className="bg-gray-50 min-h-full dark:bg-slate-900">
       <header
         className={"sticky top-0 inset-x-0 flex flex-wrap w-full bg-white border-b text-sm py-2.5 " +
           "sm:justify-start sm:flex-nowrap sm:py-4 " +
@@ -46,8 +49,17 @@ export function ApplicationTemplate(
               commands={[
                 {
                   group: "Feature",
-                  name: "Some thing else",
-                  action: () => void {},
+                  name: "Go to features",
+                  action: (): void => {
+                    router?.push("/feature");
+                  },
+                },
+                {
+                  group: "Feature",
+                  name: "Create feature",
+                  action: (): void => {
+                    router?.push("/feature/new");
+                  },
                 },
               ]}
             >
@@ -63,24 +75,17 @@ export function ApplicationTemplate(
                     </button>
                   </div>
                   <div className="hidden sm:block">
-                    <label htmlFor="search" className="sr-only">Search</label>
-                    <div
-                      className="relative"
+                    <button
+                      type="button"
+                      className="w-full flex items-center text-sm leading-6 text-slate-400 rounded-md ring-1 ring-slate-900/10 dark:ring-slate-700 shadow-sm py-1.5 pl-2 pr-3 hover:ring-slate-300 dark:highlight-white/5 dark:hover:bg-slate-700/40"
                       onClick={() => setIsOpen(true)}
                     >
-                      <div className="absolute inset-y-0 left-0 flex items-center pointer-events-none z-20 pl-4">
-                        <SearchIcon className="h-4 w-4 text-gray-400" />
-                      </div>
-
-                      <Input
-                        type="text"
-                        id="search"
-                        name="search"
-                        className="pl-11"
-                        placeholder="Search"
-                        onFocus={(event) => event.preventDefault()}
-                      />
-                    </div>
+                      <SearchIcon className="h-4 w-4 mr-2 text-gray-400" />
+                      Quick search...
+                      <span className="ml-auto pl-3 flex-none text-xs font-semibold">
+                        ⌘K
+                      </span>
+                    </button>
                   </div>
                 </>
               )}
@@ -100,6 +105,7 @@ export function ApplicationTemplate(
               >
                 <LightningBoltIcon className="h-4 w-4 text-gray-400" />
               </button>
+              <ColorSwatchIcon />
             </div>
           </div>
         </nav>
@@ -140,21 +146,7 @@ export function ApplicationTemplate(
                     )}
 
                   {index < array.length - 1 && (
-                    <svg
-                      className="flex-shrink-0 mx-3 overflow-visible h-2.5 w-2.5 text-gray-400 dark:text-gray-600"
-                      width="16"
-                      height="16"
-                      viewBox="0 0 16 16"
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                    >
-                      <path
-                        d="M5 1L10.6869 7.16086C10.8637 7.35239 10.8637 7.64761 10.6869 7.83914L5 14"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                      />
-                    </svg>
+                    <ChevronRightIcon className="flex-shrink-0 mx-1 overflow-visible h-4 w-4 text-gray-400 dark:text-gray-600" />
                   )}
                 </li>
               ))}
@@ -194,11 +186,11 @@ export function ApplicationTemplate(
                   viewBox="0 0 16 16"
                 >
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M2 13.5V7h1v6.5a.5.5 0 0 0 .5.5h9a.5.5 0 0 0 .5-.5V7h1v6.5a1.5 1.5 0 0 1-1.5 1.5h-9A1.5 1.5 0 0 1 2 13.5zm11-11V6l-2-2V2.5a.5.5 0 0 1 .5-.5h1a.5.5 0 0 1 .5.5z"
                   />
                   <path
-                    fill-rule="evenodd"
+                    fillRule="evenodd"
                     d="M7.293 1.5a1 1 0 0 1 1.414 0l6.647 6.646a.5.5 0 0 1-.708.708L8 2.207 1.354 8.854a.5.5 0 1 1-.708-.708L7.293 1.5z"
                   />
                 </svg>

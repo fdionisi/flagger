@@ -4,11 +4,15 @@ use actix_cors::Cors;
 use actix_web::{
     body::MessageBody,
     dev::{ServiceFactory, ServiceRequest, ServiceResponse},
+    http::KeepAlive,
+    middleware::Logger,
     web, App, HttpServer,
 };
 use flagger_core::Flagger;
+use utoipa::OpenApi;
+use utoipa_swagger_ui::SwaggerUi;
 
-use crate::{context::ApiContext, services};
+use crate::{context::ApiContext, openapi, services};
 
 pub struct ApiServer {
     flagger: Arc<Flagger>,
@@ -29,6 +33,7 @@ impl ApiServer {
     {
         let flagger = self.flagger.clone();
         HttpServer::new(move || ApiServer::create_app(flagger.clone()))
+            .keep_alive(KeepAlive::Os)
             .bind(addr)?
             .run()
             .await
@@ -47,6 +52,7 @@ impl ApiServer {
     > {
         App::new()
             .wrap(Cors::permissive())
+            .wrap(Logger::default())
             .app_data(web::Data::new(ApiContext {
                 flagger: flagger.clone(),
             }))
@@ -55,6 +61,10 @@ impl ApiServer {
             .service(services::management_service::enable_feature)
             .service(services::management_service::disable_feature)
             .service(services::management_service::list_features)
+            .service(
+                SwaggerUi::new("/swagger-ui/{_:.*}")
+                    .url("/api-doc/openapi.json", openapi::ApiDocs::openapi()),
+            )
     }
 }
 
@@ -82,7 +92,7 @@ mod tests {
     async fn it_build_from_builder() -> Result<(), FlaggerError> {
         // given
         let _api_server = ApiServer::builder()
-            .with_flagger(test_flagger("api_server").await?)
+            .with_flagger(test_flagger().await?)
             // when
             .build();
 

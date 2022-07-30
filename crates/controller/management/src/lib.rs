@@ -1,8 +1,5 @@
+use flagger_core::{Flagger, FlaggerContext, FlaggerError};
 use flagger_entities::feature::{Feature, FeatureInput};
-use futures::TryStreamExt;
-use mongodb::bson::{doc, oid::ObjectId, to_document};
-
-use crate::{context::FlaggerContext, Flagger, FlaggerError};
 
 #[async_trait::async_trait]
 pub trait ManagementController {
@@ -17,7 +14,7 @@ pub trait ManagementController {
     async fn toggle_feature(
         &self,
         context: &FlaggerContext,
-        feature: &ObjectId,
+        feature: &String,
         enabled: bool,
     ) -> Result<Feature, FlaggerError>;
 }
@@ -31,65 +28,32 @@ impl ManagementController for Flagger {
     ) -> Result<Feature, FlaggerError> {
         context.authenticated()?;
 
-        let result = self
-            .database
-            .collection::<Feature>()
-            .insert_one(to_document(&input)?, None)
-            .await?;
-
-        let inserted_id = result
-            .inserted_id
-            .as_object_id()
-            .ok_or(FlaggerError::NotFound)?;
-
-        Ok(self
-            .database
-            .collection_with_type::<Feature>()
-            .find_one(doc! { "_id": inserted_id }, None)
-            .await?
-            .ok_or(FlaggerError::NotFound)?)
+        Ok(self.database().insert_one(input.clone()).await)
     }
 
     async fn list_features(&self, context: &FlaggerContext) -> Result<Vec<Feature>, FlaggerError> {
         context.authenticated()?;
 
-        Ok(self
-            .database
-            .collection_with_type::<Feature>()
-            .find(doc! {}, None)
-            .await?
-            .try_collect()
-            .await?)
+        Ok(self.database().list().await)
     }
 
     async fn toggle_feature(
         &self,
         context: &FlaggerContext,
-        feature: &ObjectId,
+        feature: &String,
         enabled: bool,
     ) -> Result<Feature, FlaggerError> {
         context.authenticated()?;
 
-        let result = self
-            .database
-            .collection::<Feature>()
-            .update_one(
-                doc! { "_id": &feature },
-                doc! { "$set": { "enabled": enabled } },
-                None,
-            )
-            .await?;
-
-        if result.matched_count == 0 {
-            return Err(FlaggerError::NotFound);
-        }
+        self.database()
+            .toggle_enabled(feature.to_string(), enabled)
+            .await;
 
         Ok(self
-            .database
-            .collection_with_type::<Feature>()
-            .find_one(doc! { "_id": &feature }, None)
-            .await?
-            .ok_or(FlaggerError::NotFound)?)
+            .database()
+            .read_by_name(feature.to_string())
+            .await
+            .unwrap())
     }
 }
 
@@ -97,14 +61,14 @@ impl ManagementController for Flagger {
 mod tests {
     use flagger_entities::feature::{FeatureInput, FeatureKind};
 
-    use crate::{error::FlaggerError, tests::test_flagger};
+    use flagger_core::{tests::test_flagger, FlaggerError};
 
     use super::ManagementController;
 
     #[tokio::test]
     async fn it_create_new_feature() -> Result<(), FlaggerError> {
         // given
-        let flagger = test_flagger("core_management_controller").await?;
+        let flagger = test_flagger().await?;
         let context = flagger.context();
         let input = FeatureInput {
             name: "create feature".into(),
@@ -127,7 +91,7 @@ mod tests {
     #[tokio::test]
     async fn it_list_inserted_features() -> Result<(), FlaggerError> {
         // given
-        let flagger = test_flagger("core_management_controller_list").await?;
+        let flagger = test_flagger().await?;
         let context = flagger.context();
         let input = FeatureInput {
             name: "listed feature".into(),
@@ -150,7 +114,7 @@ mod tests {
     #[tokio::test]
     async fn it_enables_a_feature() -> Result<(), FlaggerError> {
         // given
-        let flagger = test_flagger("core_management_controller").await?;
+        let flagger = test_flagger().await?;
         let context = flagger.context();
         let input = FeatureInput {
             name: "enable feature".into(),
@@ -160,7 +124,9 @@ mod tests {
         let feature = flagger.create_feature(&context, &input).await?;
 
         // when
-        let updated_feature = flagger.toggle_feature(&context, &feature.id, true).await?;
+        let updated_feature = flagger
+            .toggle_feature(&context, &feature.name, true)
+            .await?;
 
         // then
         assert_eq!(feature.name, updated_feature.name);
@@ -173,7 +139,7 @@ mod tests {
     #[tokio::test]
     async fn it_disables_a_feature() -> Result<(), FlaggerError> {
         // given
-        let flagger = test_flagger("core_management_controller").await?;
+        let flagger = test_flagger().await?;
         let context = flagger.context();
         let input = FeatureInput {
             name: "disable feature".into(),
@@ -181,10 +147,14 @@ mod tests {
             kind: FeatureKind::KillSwitch,
         };
         let feature = flagger.create_feature(&context, &input).await?;
-        flagger.toggle_feature(&context, &feature.id, true).await?;
+        flagger
+            .toggle_feature(&context, &feature.name, true)
+            .await?;
 
         // when
-        let disabled_feature = flagger.toggle_feature(&context, &feature.id, false).await?;
+        let disabled_feature = flagger
+            .toggle_feature(&context, &feature.name, false)
+            .await?;
 
         // then
         assert_eq!(disabled_feature.enabled, false);

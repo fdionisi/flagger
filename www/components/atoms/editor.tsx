@@ -10,14 +10,19 @@ interface Props {
 
 export function Editor({ schema, value, onChange }: Props) {
   return (
-    <div className="p-1 bg-white w-full not-prose dark:bg-gray-800 rounded-md border border-gray-200 dark:border-gray-700">
+    <div className="w-full h-full not-prose">
       <MonacoEditor
-        height="23.5rem"
+        height="100%"
         width="100%"
         theme="vs-dark"
         language="json"
         options={{
+          minimap: {
+            enabled: false,
+          },
           tabSize: 2,
+          formatOnType: true,
+          formatOnPaste: true,
         }}
         value={value}
         onChange={(input) => {

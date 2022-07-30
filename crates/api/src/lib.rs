@@ -1,4 +1,5 @@
 mod context;
+mod openapi;
 mod server;
 mod services;
 
@@ -10,7 +11,7 @@ pub mod tests {
 
     #[macro_export]
     macro_rules! test_api_server {
-        ($x:tt) => {{
+        () => {{
             use std::sync::Arc;
 
             use actix_web::test;
@@ -18,7 +19,7 @@ pub mod tests {
 
             use crate::ApiServer;
 
-            let flagger = test_flagger($x).await?;
+            let flagger = test_flagger().await?;
             let app = ApiServer::create_app(Arc::new(flagger));
             test::init_service(app).await
         }};

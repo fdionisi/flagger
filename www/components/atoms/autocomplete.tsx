@@ -41,10 +41,13 @@ export function Autocomplete({
     );
 
   return (
-    <div className={clsx("w-72 z-20", className)} {...rest}>
-      <Combobox value={selected} onChange={(o) => onChange?.(o)}>
+    <div className={clsx("w-72", className)} {...rest}>
+      <Combobox
+        value={selected}
+        onChange={(o) => onChange?.(o)}
+      >
         <div className="relative w-full">
-          <div className="focus:outline-none relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="pr-9 block w-full border-gray-200 rounded-md text-sm focus:border-blue-500 focus:ring-blue-500 dark:bg-gray-800 dark:border-gray-700 dark:text-gray-400">
             <Combobox.Input
               className={inputBaseClasses}
               displayValue={(option: Option) =>
@@ -66,7 +69,7 @@ export function Autocomplete({
             leaveTo="opacity-0"
             afterLeave={() => setQuery("")}
           >
-            <Combobox.Options className="w-72 z-10 mt-2 min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
+            <Combobox.Options className="absolute w-72 mt-2 min-w-[15rem] bg-white shadow-md rounded-lg p-2 dark:bg-gray-800 dark:border dark:border-gray-700 dark:divide-gray-700">
               {filteredOptions.length === 0 && query !== ""
                 ? (
                   <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
@@ -79,8 +82,10 @@ export function Autocomplete({
                       key={option.key}
                       className={({ active }) =>
                         clsx(
-                          "flex items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300",
-                          active ? "bg-teal-600 text-white" : "text-gray-900",
+                          "flex relative cursor-pointer items-center gap-x-3.5 py-2 px-3 rounded-md text-sm text-gray-800 hover:bg-gray-100 focus:ring-2 focus:ring-blue-500 dark:text-gray-400 dark:hover:bg-gray-700 dark:hover:text-gray-300",
+                          active
+                            ? "bg-gray-700 hover:bg-gray-700 text-white"
+                            : "text-gray-700",
                         )}
                       value={option}
                     >
@@ -96,7 +101,7 @@ export function Autocomplete({
                           {selected
                             ? (
                               <span
-                                className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
+                                className={`absolute inset-y-0 right-3 flex items-center ${
                                   active ? "text-white" : "text-teal-600"
                                 }`}
                               >

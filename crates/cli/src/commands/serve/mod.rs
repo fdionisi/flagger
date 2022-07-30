@@ -4,8 +4,6 @@ use std::{ffi::OsString, path::Path, process::Stdio};
 
 use clap::Parser;
 use tokio::process::Command;
-// use tokio::cmd
-// use tokio::fs::
 
 #[derive(Debug, Parser)]
 pub enum ServeArgs {
@@ -23,12 +21,7 @@ pub async fn command(args: ServeArgs) {
             Command::new(executable)
                 .stdin(Stdio::null())
                 .stdout(Stdio::inherit())
-                .args(
-                    args.into_iter()
-                        .skip(1)
-                        .take_while(|_| true)
-                        .collect::<Vec<OsString>>(),
-                )
+                .args(args.into_iter().skip(1).collect::<Vec<OsString>>())
                 .spawn()
                 .expect("fail to start")
                 .wait()

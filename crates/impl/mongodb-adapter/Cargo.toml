@@ -1,0 +1,18 @@
+[package]
+name = "flagger-mongodb-adapter"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+async-trait = "0.1.56"
+flagger-database-adapter = { path = "../../database-adapter", version = "0.1.0" }
+flagger-entities = { path = "../../entities", version = "0.1.0" }
+flagger-types = { path = "../../types", version = "0.1.0" }
+futures = "0.3.21"
+mongodb = "2.2.2"
+thiserror = "1.0.31"
+
+[dev-dependencies]
+tokio = { version = "1.19.2", features = ["rt", "macros"] }

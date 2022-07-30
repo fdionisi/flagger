@@ -1,22 +1,29 @@
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect } from "react";
 import { FeatureInput } from "../../../lib/flagger-client";
-import { CreateFeature } from "../../components/organisms/create-feature";
+import { InspectableForm } from "../../components/organisms";
 import { ApplicationTemplate } from "../../components/templates";
-import { useManagement } from "../../store";
+import { useDoc, useManagement } from "../../store";
 
 export default function New() {
   const router = useRouter();
   const management = useManagement();
+  const doc = useDoc();
 
   useEffect(() => {
     management.actions.listFeatures();
+    doc.actions.readApiDocs();
   }, []);
 
   const onSubmit = useCallback(async (feature: FeatureInput) => {
+    console.log("here");
     await management.actions.createFeature(feature);
     router.push("/feature");
   }, [router, management.actions.createFeature]);
+
+  if (!doc.data.docs) {
+    return null;
+  }
 
   return (
     <ApplicationTemplate
@@ -34,7 +41,23 @@ export default function New() {
         },
       ]}
     >
-      <CreateFeature onSubmit={onSubmit} />
+      <InspectableForm
+        onSubmit={onSubmit}
+        schema={doc.data.docs?.FeatureInput}
+        uiSchema={{
+          "ui:order": ["name", "kind", "description", "*"],
+          name: {
+            "ui:title": "Name",
+          },
+          kind: {
+            "ui:title": "Kind",
+          },
+          description: {
+            "ui:title": "Description",
+            "ui:widget": "textarea",
+          },
+        }}
+      />
     </ApplicationTemplate>
   );
 }

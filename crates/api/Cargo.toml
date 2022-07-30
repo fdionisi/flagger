@@ -9,12 +9,16 @@ test-suite = ["flagger-core/test-suite"]
 
 [dependencies]
 actix-cors = "0.6.1"
-actix-web = "4"
+actix-http = "3"
+actix-web = { version = "4", default-features = false, features = ["macros"] }
 flagger-core = { path = "../core", version = "0.1.0" }
+flagger-consumer-controller = { path = "../controller/consumer", version = "0.1.0" }
 flagger-entities = { path = "../entities", version = "0.1.0" }
+flagger-management-controller = { path = "../controller/management", version = "0.1.0" }
 flagger-types = { path = "../types", version = "0.1.0" }
+utoipa = { git = "https://github.com/juhaku/utoipa", features = ["actix_extras"] }
+utoipa-swagger-ui = { git = "https://github.com/juhaku/utoipa", features = ["actix-web"] }
 
 [dev-dependencies]
-actix-http = "3.2.1"
 flagger-core = { path = "../core", version = "0.1.0", features = ["test-suite"] }
 tokio = { version = "1.19.2", features = ["rt", "macros"] }

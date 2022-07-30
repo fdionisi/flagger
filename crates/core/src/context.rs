@@ -1,13 +1,13 @@
-use crate::FlaggerError;
-
 pub struct FlaggerContext;
 
 impl FlaggerContext {
-    pub(crate) fn authenticated(&self) -> Result<(), FlaggerError> {
+    #[cfg(feature = "implement-controller")]
+    pub fn authenticated(&self) -> Result<(), crate::FlaggerError> {
         Ok(())
     }
 
-    pub(crate) fn consumer(&self) -> Result<(), FlaggerError> {
+    #[cfg(feature = "implement-controller")]
+    pub fn consumer(&self) -> Result<(), crate::FlaggerError> {
         Ok(())
     }
 }
