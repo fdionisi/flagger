@@ -11,7 +11,7 @@ RUN apk add --no-cache musl-dev
 COPY Cargo.lock Cargo.toml ./
 COPY crates/ ./crates
 
-RUN cargo build --release --bin flagger --no-default-features --features ${features}
+RUN cargo build --release --bin flagger --no-default-features --features sqlite
 
 RUN strip target/release/flagger
 
