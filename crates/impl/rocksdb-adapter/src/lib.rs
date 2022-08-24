@@ -45,7 +45,10 @@ impl DatabaseAdapter for RocksDBAdapter {
     async fn list(&self) -> Vec<Feature> {
         self.0
             .iterator(rocksdb::IteratorMode::Start)
-            .map(|(_, v)| Feature::de(v))
+            .filter_map(|r| match r {
+                Ok((_, v)) => Some(Feature::de(v)),
+                Err(_) => None,
+            })
             .collect()
     }
 
