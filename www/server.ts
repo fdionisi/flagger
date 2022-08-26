@@ -79,9 +79,6 @@ export class Server {
             "/";
           const target =
             `${config.apiUrl}${path}?${context.request.querystring}`;
-
-          console.log(target);
-
           proxy.web(
             context.req,
             context.res,

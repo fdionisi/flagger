@@ -16,7 +16,6 @@ export default function New() {
   }, []);
 
   const onSubmit = useCallback(async (feature: FeatureInput) => {
-    console.log("here");
     await management.actions.createFeature(feature);
     router.push("/feature");
   }, [router, management.actions.createFeature]);
