@@ -1,12 +1,10 @@
 [workspace]
 members = [
-    "crates/types",
     "crates/entities",
     "crates/database-adapter",
     "crates/core",
     "crates/controller/consumer",
     "crates/controller/management",
-    "crates/impl/aws-identity-provider",
     "crates/impl/mongodb-adapter",
     "crates/impl/rocksdb-adapter",
     "crates/impl/sqlite-adapter",

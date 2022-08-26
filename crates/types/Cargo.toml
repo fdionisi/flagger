@@ -1,8 +1,0 @@
-[package]
-name = "flagger-types"
-version = "0.1.0"
-edition = "2021"
-
-[dependencies]
-jwt = { version = "0.16" }
-serde = { version = "1" }

@@ -15,7 +15,6 @@ flagger-core = { path = "../core", version = "0.1.0" }
 flagger-consumer-controller = { path = "../controller/consumer", version = "0.1.0" }
 flagger-entities = { path = "../entities", version = "0.1.0" }
 flagger-management-controller = { path = "../controller/management", version = "0.1.0" }
-flagger-types = { path = "../types", version = "0.1.0" }
 utoipa = { git = "https://github.com/juhaku/utoipa", features = ["actix_extras"] }
 utoipa-swagger-ui = { git = "https://github.com/juhaku/utoipa", features = ["actix-web"] }
 

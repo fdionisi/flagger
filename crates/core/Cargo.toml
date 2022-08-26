@@ -12,7 +12,6 @@ test-suite = ["flagger-database-adapter/test-suite"]
 async-trait = "0.1.56"
 flagger-database-adapter = { path = "../database-adapter", version = "0.1.0" }
 flagger-entities = { path = "../entities", version = "0.1.0" }
-flagger-types = { path = "../types", version = "0.1.0" }
 futures = "0.3.21"
 serde = { version = "1", features = ["derive"] }
 thiserror = "1.0.31"

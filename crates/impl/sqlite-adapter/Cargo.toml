@@ -9,5 +9,4 @@ edition = "2021"
 async-trait = "0.1.56"
 flagger-database-adapter = { path = "../../database-adapter", version = "0.1.0" }
 flagger-entities = { path = "../../entities", version = "0.1.0" }
-flagger-types = { path = "../../types", version = "0.1.0" }
 rusqlite = { version = "0.28.0", features = ["bundled"] }
