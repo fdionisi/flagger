@@ -13,7 +13,6 @@ export class ApiDocController {
     return this.#inner.request({
       path: "/api-doc/openapi.json",
       method: "GET",
-      query: { ciao: "hello" },
       token: context.token,
     });
   }
