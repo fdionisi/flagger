@@ -27,9 +27,9 @@ export class Server {
    *
    * @param port the port for incoming HTTP requests.
    */
-  async listen(port?: number): Promise<void> {
+  async listen(address?: string, port?: number): Promise<void> {
     return new Promise<void>((resolve) => {
-      this.server.listen(port, () => {
+      this.server.listen(port, address, () => {
         resolve();
       });
     });
