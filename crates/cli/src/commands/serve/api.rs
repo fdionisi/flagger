@@ -18,6 +18,8 @@ use flagger_sqlite_adapter::SQLiteAdapter;
 #[derive(Debug, Parser)]
 pub struct ServeApiArgs {
     #[clap(long)]
+    api_address: String,
+    #[clap(long)]
     api_port: u16,
     #[clap(long)]
     database_name: String,
@@ -29,6 +31,8 @@ pub struct ServeApiArgs {
 #[derive(Debug, Parser)]
 pub struct ServeApiArgs {
     #[clap(long)]
+    api_address: String,
+    #[clap(long)]
     api_port: u16,
     #[clap(long)]
     database_path: PathBuf,
@@ -37,6 +41,8 @@ pub struct ServeApiArgs {
 #[cfg(feature = "rocksdb")]
 #[derive(Debug, Parser)]
 pub struct ServeApiArgs {
+    #[clap(long)]
+    api_address: String,
     #[clap(long)]
     api_port: u16,
     #[clap(long)]
@@ -53,7 +59,7 @@ pub async fn command(args: ServeApiArgs) {
                 .expect("msg"),
         )
         .build()
-        .listen(("127.0.0.1", args.api_port))
+        .listen((args.api_address, args.api_port))
         .await
         .expect("msg");
 }
