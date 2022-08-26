@@ -17,7 +17,7 @@ export function FlaggerClientProvider({ children }: PropsWithChildren<Props>) {
   return (
     <Context.Provider
       value={{
-        flaggerClient: new FlaggerClient("http://localhost:3333"),
+        flaggerClient: new FlaggerClient("/api"),
         flaggerClientContext: new FlaggerClientContext(),
       }}
     >

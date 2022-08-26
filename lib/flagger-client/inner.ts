@@ -20,12 +20,13 @@ export class Inner {
     body,
     token,
   }: InnerRequest): Promise<T> {
-    const url = new URL(path, this.#baseUrl);
+    const url = `${this.#baseUrl}/${path}`.replace("//", "/");
+    const searchParams = new URLSearchParams();
     Object.entries(query).forEach(([key, value]) => {
-      url.searchParams.append(key, value);
+      searchParams.append(key, value);
     });
 
-    const request = new Request(url, {
+    const request = new Request(`${url}?${searchParams.toString()}`, {
       method,
       headers: {
         "authorization": token ? `Bearer ${token}` : "",

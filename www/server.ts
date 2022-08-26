@@ -75,9 +75,12 @@ export class Server {
     const apiRouter = new KoaRouter({ prefix: "/api" })
       .all("Management API proxy", "/:path*", async function proxyAll(context) {
         return await new Promise<void>((resolve, reject) => {
-          const path = context.path.split("/api").pop() || "/";
+          const path = context.path.slice(context.path.indexOf("/api") + 4) ||
+            "/";
           const target =
             `${config.apiUrl}${path}?${context.request.querystring}`;
+
+          console.log(target);
 
           proxy.web(
             context.req,
