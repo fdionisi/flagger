@@ -19,7 +19,7 @@ export default function Index() {
       description="This is a simple dashboard with sidebar build in Tailwind CSS and implementing Flagger API."
     >
       {management.data.listed.map((feature) => (
-        <FeatureCard key={feature._id} feature={feature} />
+        <FeatureCard key={feature.name} feature={feature} />
       ))}
     </ApplicationTemplate>
   );

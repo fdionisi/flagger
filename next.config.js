@@ -10,6 +10,15 @@ module.exports = {
       use: [options.defaultLoaders.babel],
     });
 
+    config.module.rules = [
+      ...config.module.rules,
+      // ensure our libs barrel files don't constitute imports
+      {
+        test: /www\/.*index.ts/i,
+        sideEffects: false,
+      },
+    ];
+
     return config;
   },
 };
