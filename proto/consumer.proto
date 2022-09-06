@@ -1,0 +1,15 @@
+syntax = "proto3";
+
+package consumer;
+
+message CheckFeatureRequest {
+  string feature_name = 1;
+}
+
+message CheckFeatureResponse {
+  bool status = 1;
+}
+
+service Consumer {
+  rpc CheckFeature(CheckFeatureRequest) returns (CheckFeatureResponse) {}
+}

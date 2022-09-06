@@ -3,7 +3,6 @@ export enum FeatureKind {
 }
 
 export interface Feature {
-  _id: string;
   kind: FeatureKind;
   name: string;
   description?: string;

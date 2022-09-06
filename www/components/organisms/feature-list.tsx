@@ -83,7 +83,7 @@ export function FeatureList(
 
       {filteredFeatures.map((feature) => (
         <li
-          key={feature._id}
+          key={feature.name}
           className="inline-flex items-center gap-x-2 py-3 px-4 text-sm font-medium bg-white border text-gray-800 -mt-px first:rounded-t-lg first:mt-0 last:rounded-b-lg dark:bg-gray-800 dark:border-gray-700 dark:text-white"
         >
           <div className="flex flex-col">
@@ -99,7 +99,7 @@ export function FeatureList(
           </div>
 
           <div className="flex flex-1 items-center justify-end">
-            <Link href={`/feature/${feature._id}`}>
+            <Link href={`/feature/${feature.name}`}>
               <button
                 type="button"
                 className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white text-sm dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
@@ -110,7 +110,7 @@ export function FeatureList(
             <button
               type="button"
               className="hs-dropdown-toggle inline-flex flex-shrink-0 justify-center items-center h-8 w-8 rounded-md text-gray-500 hover:text-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-offset-2 focus:ring-offset-white text-sm dark:text-gray-500 dark:hover:text-gray-400 dark:focus:ring-gray-700 dark:focus:ring-offset-gray-800"
-              onClick={() => toggleFeature(feature._id, !feature.enabled)}
+              onClick={() => toggleFeature(feature.name, !feature.enabled)}
             >
               {feature.enabled
                 ? <StatusOfflineIcon width={20} height={20} />

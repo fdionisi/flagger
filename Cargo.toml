@@ -8,6 +8,8 @@ members = [
     "crates/impl/mongodb-adapter",
     "crates/impl/rocksdb-adapter",
     "crates/impl/sqlite-adapter",
+    "crates/service/consumer",
+    "crates/service/management",
     "crates/api",
     "crates/cli",
 ]

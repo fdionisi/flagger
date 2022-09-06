@@ -1,0 +1,22 @@
+[package]
+name = "flagger-consumer-service"
+version = "0.1.0"
+edition = "2021"
+
+[features]
+default = []
+test-suite = ["flagger-core/test-suite"]
+
+[dependencies]
+tonic = "0.8"
+prost = "0.11"
+flagger-core = { path = "../../core", version = "0.1.0" }
+flagger-entities = { path = "../../entities", version = "0.1.0" }
+flagger-consumer-controller = { path = "../../controller/consumer", version = "0.1.0" }
+
+[build-dependencies]
+tonic-build = "0.8"
+
+[dev-dependencies]
+flagger-core = { path = "../../core", version = "0.1.0", features = ["test-suite"] }
+tokio = { version = "1.19.2", features = ["rt", "macros"] }

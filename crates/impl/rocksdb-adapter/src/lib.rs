@@ -13,6 +13,7 @@ pub struct RocksDBAdapter(RocksDB);
 #[derive(Default)]
 pub struct RocksDBAdapterBuilder {
     database_path: Option<PathBuf>,
+    parimary_path: Option<PathBuf>,
     options: Option<RocksDBOptions>,
 }
 
@@ -73,7 +74,14 @@ impl RocksDBAdapterBuilder {
             .take()
             .ok_or(RocksDBAdapterError::Builder)?;
 
-        Ok(RocksDBAdapter(RocksDB::open(&options, database_path)?))
+        let db = match self.parimary_path.take() {
+            Some(primary_path) => {
+                RocksDB::open_as_secondary(&options, primary_path, database_path)?
+            }
+            None => RocksDB::open(&options, database_path)?,
+        };
+
+        Ok(RocksDBAdapter(db))
     }
 
     pub fn with_options(&mut self, options: RocksDBOptions) -> &mut Self {
@@ -87,6 +95,12 @@ impl RocksDBAdapterBuilder {
         P: AsRef<Path>,
     {
         self.database_path.replace(path.as_ref().into());
+
+        self
+    }
+
+    pub fn with_primary_path(&mut self, path: Option<PathBuf>) -> &mut Self {
+        self.parimary_path = path;
 
         self
     }
