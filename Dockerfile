@@ -6,10 +6,11 @@ FROM rust:alpine3.16 as rust-builder
 
 WORKDIR /rust-builder
 
-RUN apk add --no-cache musl-dev
+RUN apk add --no-cache musl-dev protobuf-dev
 
 COPY Cargo.lock Cargo.toml ./
 COPY crates/ ./crates
+COPY proto/ ./proto
 
 RUN cargo build --release --bin flagger --no-default-features --features sqlite
 
